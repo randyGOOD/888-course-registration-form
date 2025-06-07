@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>888流量電商體驗課報名表</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 網頁整體樣式設定 */
+        body {
+            font-family: 'Noto Sans TC', sans-serif; /* 使用 Google 中文字體 */
+            background-color: #f4f7f6; /* 淡灰色背景 */
+            display: flex;
+            justify-content: center; /* 水平居中 */
+            align-items: flex-start; /* 內容從頂部開始 */
+            min-height: 100vh; /* 最小高度為視窗高度 */
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        /* 表單容器樣式 */
+        .form-container {
+            background-color: #ffffff; /* 白色表單背景 */
+            padding: 40px;
+            border-radius: 8px; /* 圓角邊框 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 輕微陰影效果 */
+            width: 100%;
+            max-width: 760px; /* 表單最大寬度，調整以適應內容 */
+            box-sizing: border-box;
+        }
+        /* 主標題樣式 */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em; /* 字體大小 */
+            font-weight: 700; /* 字體粗細 */
+        }
+        /* 副標題樣式 */
+        h2 {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            font-weight: 400;
+        }
+        /* 表單每個輸入組的樣式 */
+        .form-group {
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            border: 1px solid #ddd; /* 淺灰色邊框 */
+            border-radius: 5px;
+        }
+        /* 某些區塊不需要邊框時使用 */
+        .form-group.no-border {
+            border: none;
+            padding: 0;
+        }
+        /* 標籤 (label) 樣式 */
+        label {
+            display: block; /* 讓標籤獨佔一行 */
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        /* 必填欄位星號標示 */
+        .required::after {
+            content: ' *'; /* 在必填標籤後方顯示紅色星號 */
+            color: red;
+        }
+        /* 輸入框、下拉選單、文字區塊的樣式 */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%; /* 寬度佔滿父容器 */
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* 包含內邊距和邊框在寬度內 */
+            font-size: 1em;
+            color: #333;
+            transition: border-color 0.3s ease; /* 平滑過渡效果 */
+        }
+        /* 輸入框獲得焦點時的樣式 */
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #4CAF50; /* 綠色高亮 */
+            outline: none; /* 移除瀏覽器預設的外框 */
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /* 輕微陰影 */
+        }
+        /* 文字區塊 (備註) 樣式 */
+        textarea {
+            resize: vertical; /* 只允許垂直調整大小 */
+            min-height: 100px;
+        }
+        /* 單選和多選選項組的間距 */
+        .radio-group, .checkbox-group {
+            margin-top: 10px;
+        }
+        /* 單選和多選選項的標籤及輸入框對齊 */
+        .radio-group label, .checkbox-group label {
+            display: flex;
+            align-items: center; /* 垂直居中對齊 */
+            font-weight: 400;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        /* 單選和多選輸入框的樣式 */
+        .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+            width: auto; /* 自動寬度 */
+            margin-right: 10px; /* 與文字的間距 */
+            transform: scale(1.2); /* 放大選框 */
+        }
+        /* 資訊文字區塊樣式 (例如：條款聲明) */
+        .info-text {
+            font-size: 0.95em;
+            color: #666;
+            line-height: 1.6; /* 行高 */
+            margin-top: 15px;
+            margin-bottom: 25px;
+            background-color: #f8f8f8; /* 淺灰色背景 */
+            border-left: 4px solid #eee; /* 左邊框 */
+            padding: 15px;
+            border-radius: 4px;
+        }
+        /* 檔案上傳區塊樣式 */
+        .file-upload-group {
+            margin-top: 10px;
+            border: 1px dashed #ccc; /* 虛線邊框 */
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            position: relative; /* 為了絕對定位 input[type="file"] */
+        }
+        /* 隱藏原生檔案輸入框，只顯示自定義的 label */
+        .file-upload-group input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0; /* 完全透明 */
+            cursor: pointer;
+        }
+        /* 自定義檔案上傳按鈕的樣式 */
+        .file-upload-group .file-label {
+            display: block;
+            color: #007bff; /* 藍色文字 */
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+        /* 顯示檔案名稱的樣式 */
+        .file-upload-group .file-name {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 5px;
+        }
+        /* 上傳狀態文字的樣式 */
+        .file-upload-group .upload-status {
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+        .file-upload-group .upload-status.uploading {
+            color: #ffc107; /* 黃色表示上傳中 */
+        }
+        .file-upload-group .upload-status.success {
+            color: #28a745; /* 綠色表示上傳成功 */
+        }
+        .file-upload-group .upload-status.error {
+            color: #dc3545; /* 紅色表示上傳失敗 */
+        }
+
+        /* 送出按鈕樣式 */
+        button {
+            background-color: #4CAF50; /* 綠色按鈕 */
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 700;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049; /* 滑鼠懸停時顏色變深 */
+        }
+        button:disabled {
+            background-color: #a0a0a0; /* 禁用時變灰 */
+            cursor: not-allowed;
+        }
+        /* 回應訊息區塊樣式 */
+        #response-message {
+            margin-top: 25px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 10px;
+            border-radius: 5px;
+            display: none; /* 預設隱藏，只在有訊息時顯示 */
+        }
+        /* 成功訊息樣式 */
+        .success-message {
+            color: #28a745;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        /* 錯誤訊息樣式 */
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        /* 載入訊息樣式 */
+        .loading-message {
+            color: #007bff;
+            background-color: #e0f2f7;
+            border-color: #b3e0ff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h1>888流量電商體驗課報名表</h1>
+    <h2>888流量電商體驗課報名資訊</h2>
+    <form id="registrationForm">
+
+        <div class="form-group">
+            <label for="realName" class="required">真實姓名:</label>
+            <input type="text" id="realName" name="真實姓名" placeholder="請輸入您的真實姓名" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber" class="required">手機號碼:</label>
+            <input type="tel" id="phoneNumber" name="手機號碼" placeholder="格式: 09XX-XXXXXX (例如: 0912-345678)" pattern="09\d{2}-\d{6}" title="請輸入正確的手機號碼格式: 09XX-XXXXXX" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lineID">LINE ID:</label>
+            <input type="text" id="lineID" name="LINE ID" placeholder="請輸入您的 LINE ID (選填)">
+        </div>
+
+        <div class="form-group">
+            <label for="industry" class="required">產業別:</label>
+            <select id="industry" name="產業別" required>
+                <option value="">-- 請選擇您的產業別 --</option>
+                <option value="電商/零售業">電商/零售業</option>
+                <option value="服務業">服務業</option>
+                <option value="餐飲業">餐飲業</option>
+                <option value="教育/培訓業">教育/培訓業</option>
+                <option value="媒體/娛樂業">媒體/娛樂業</option>
+                <option value="製造業">製造業</option>
+                <option value="金融/保險業">金融/保險業</option>
+                <option value="醫療/健康產業">醫療/健康產業</option>
+                <option value="科技/軟體業">科技/軟體業</option>
+                <option value="房地產/建築業">房地產/建築業</option>
+                <option value="政府/非營利組織">政府/非營利組織</option>
+                <option value="學生">學生</option>
+                <option value="其他">其他</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="currentRole" class="required">目前的角色:</label>
+            <select id="currentRole" name="目前的角色" required>
+                <option value="">-- 請選擇您的角色 --</option>
+                <option value="小白 / 想了解如何用電商和自媒體變現">小白 / 想了解如何用電商和自媒體變現</option>
+                <option value="電商 / 遇到瓶頸 想了解如何降本增效">電商 / 遇到瓶頸 想了解如何降本增效</option>
+                <option value="團購主 / 想了解如何取得第一手貨源">團購主 / 想了解如何取得第一手貨源</option>
+                <option value="自媒體創作者 / 有流量卻不知道怎麼變現">自媒體創作者 / 有流量卻不知道怎麼變現</option>
+                <option value="實體店經營者 / 不想大量再囤貨">實體店經營者 / 不想大量再囤貨</option>
+                <option value="廠商 / 想要對接更多的零售端">廠商 / 想要對接更多的零售端</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="currentBottleneck" class="required">目前遇到的瓶頸:</label>
+            <select id="currentBottleneck" name="目前遇到的瓶頸" required>
+                <option value="">-- 請選擇您遇到的瓶頸 --</option>
+                <option value="營業額難以提高">營業額難以提高</option>
+                <option value="利潤不足">利潤不足</option>
+                <option value="人員培養困難">人員培養困難</option>
+                <option value="稅務問題">稅務問題</option>
+                <option value="自有流量取得困難">自有流量取得困難</option>
+                <option value="採購進貨相關問題">採購進貨相關問題</option>
+                <option value="其他">其他</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="required">最感興趣的部分 (可複選):</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="最感興趣的部分" value="短影音定位及起號"> 短影音定位及起號</label>
+                <label><input type="checkbox" name="最感興趣的部分" value="短影音矩陣切片&TK投流"> 短影音矩陣切片&TK投流</label>
+                <label><input type="checkbox" name="最感興趣的部分" value="蝦皮電商經營技巧"> 蝦皮電商經營技巧</label>
+                <label><input type="checkbox" name="最感興趣的部分" value="第一手貨源對接"> 第一手貨源對接</label>
+                <label><input type="checkbox" name="最感興趣的部分" value="物流渠道 集運代理"> 物流渠道 集運代理</label>
+                <label><input type="checkbox" name="最感興趣的部分" value="大陸電話卡及銀行卡開戶"> 大陸電話卡及銀行卡開戶</label>
+                <label><input type="checkbox" name="最感興趣的部分" value="介紹分潤"> 介紹分潤</label>
+            </div>
+             <input type="hidden" name="dummy_interest_required" data-required-checkbox-group="最感興趣的部分">
+        </div>
+
+        <div class="form-group">
+            <label for="emailAddr" class="required">Email:</label>
+            <input type="email" id="emailAddr" name="Email" placeholder="請輸入您的Email地址" required>
+        </div>
+
+        <div class="form-group">
+            <label for="referrerName">介紹人姓名 (選填):</label>
+            <input type="text" id="referrerName" name="介紹人姓名" placeholder="若有介紹人，請輸入其姓名">
+        </div>
+
+        <div class="form-group" id="referralUploadSection" style="display: none;">
+            <p class="info-text" style="color:red; font-weight:bold;">參與介紹分潤者，必須提供與本人相符的銀行存摺影本和身分證正反面，請上傳以下資料：</p>
+            <div class="file-upload-group">
+                <label for="bankbookFile" class="file-label">銀行存摺影本 (照片或PDF):</label>
+                <input type="file" id="bankbookFile" name="銀行存摺影本" accept="image/*,.pdf">
+                <div class="file-name" id="bankbookFileName">未選擇檔案</div>
+                <div class="upload-status" id="bankbookUploadStatus"></div>
+                <input type="hidden" id="bankbookFileUrl" name="銀行存摺影本連結">
+            </div>
+            <div class="file-upload-group">
+                <label for="idFrontFile" class="file-label">身分證正面影本 (照片或PDF):</label>
+                <input type="file" id="idFrontFile" name="身分證正面影本" accept="image/*,.pdf">
+                <div class="file-name" id="idFrontFileName">未選擇檔案</div>
+                <div class="upload-status" id="idFrontUploadStatus"></div>
+                <input type="hidden" id="idFrontFileUrl" name="身分證正面影本連結">
+            </div>
+            <div class="file-upload-group">
+                <label for="idBackFile" class="file-label">身分證反面影本 (照片或PDF):</label>
+                <input type="file" id="idBackFile" name="身分證反面影本" accept="image/*,.pdf">
+                <div class="file-name" id="idBackFileName">未選擇檔案</div>
+                <div class="upload-status" id="idBackUploadStatus"></div>
+                <input type="hidden" id="idBackFileUrl" name="身分證反面影本連結">
+            </div>
+        </div>
+
+        <div class="form-group no-border">
+            <div class="info-text" style="font-size:0.85em; background-color:#fff0f5; border-left-color:#ffb6c1;">
+                <p style="font-weight:bold; color:#dc3545;">📜 課程報名條款與免責聲明（請務必詳閱）</p>
+                <p>本課程為付費知識型教學活動，請學員於報名前詳細閱讀下列條款。<br>勾選同意並完成付款，即表示您已完全理解並接受以下內容：</p>
+                <p style="font-weight:bold; color:#555;">課程性質說明</p>
+                <p>本課程主題為電商經營與自媒體引流變現相關，課程內容為知識傳授、實務經驗分享與操作思維建構。<br>主辦單位已盡責提供完整課程內容，完成課程即視為已履行服務。</p>
+                <p style="font-weight:bold; color:#555;">成果與應用免責聲明</p>
+                <p>課程目的為傳授知識與方法，不保證學員能夠取得具體成果、營利或特定轉化效果。<br>成果取決於個人背景、資源、執行力與實際操作狀況，與本課程本身無關。<br>若學員課後無法成功應用內容，或未獲期望成效，皆屬個人執行與學習結果問題，主辦單位不負責任亦不提供補償或個別協助。</p>
+                <p style="font-weight:bold; color:#555;">付款與退費政策</p>
+                <p>本課程採一次性付費、報名後恕不退費、不轉讓、不保留名額，不論任何理由（包括但不限於個人因素、臨時無法參與等）。<br>課程上完即視為服務結束，不提供後續個別諮詢、教學或技術輔導。</p>
+                <p style="font-weight:bold; color:#555;">社群參與說明</p>
+                <p>課程結束後，主辦單位可能提供社群平台供學員進行互動與經驗交流，此為非營利性質的延伸服務，並不構成一對一教學或售後輔導義務。<br>社群管理與活動內容由主辦單位視情況安排，不保證特定頻率或回覆承諾。</p>
+                <p style="font-weight:bold; color:#555;">智慧財產權保護</p>
+                <p>課程中所提供之教材、簡報、影片等內容均為主辦單位【凱迪拉課整合行銷國際有限公司】或講師之智慧財產，未經授權不得翻錄、公開分享、轉賣、改作或散播，違者將依法追究。</p>
+                <p style="font-weight:bold; color:#555;">保密協議條款</p>
+                <p>本課程內容（包括但不限於文字、圖片、影片、教材、講義、教學方法、討論內容等），以及主辦單位所建立或使用之 官方LINE群組、交流社群平台（包括但不限於LINE、Facebook社團、threads、Telegram、WhatsApp、Email通訊、私訊對話）及其他相關溝通管道 內之言論與分享內容，均屬【凱迪拉課整合行銷國際有限公司】及講師之智慧財產或受保護資訊，僅供學員本人學習使用及內部交流。<br>學員不得以任何形式（包括但不限於錄音、錄影、截圖、翻拍、轉錄、轉載、轉貼、公開分享、轉售或用於其他商業用途）保存、散布、轉傳或提供予第三人，亦不得將社群內任何交流內容、其他學員分享資訊、教學討論內容對外揭露、引用或散播。<br>課程期間與結束後，學員皆須遵守保密義務，不得將課程內容、教材資料、社群交流資訊、其他學員分享內容外流，亦不得改編後作為自行開課、出版或其他營利性用途。<br>違反上述保密條款者，主辦單位有權立即取消學員資格，並依法追究相關法律責任及損害賠償。<br>保密義務自報名付款日起生效，於課程結束後及社群存續期間皆持續有效，不因課程終止或社群解散而解除。</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="required"><input type="checkbox" id="termsAgreement" name="條款同意聲明" value="我已詳細閱讀並完全同意以上課程條款、免責聲明及保密協議條款" required> 我已詳細閱讀並完全同意以上課程條款、免責聲明及保密協議條款。</label>
+        </div>
+
+        <div class="form-group">
+            <label>匯款帳號:</label>
+            <p style="font-weight:bold; color:#555; font-size:1.1em;">
+                <span style="color:#dc3545;">[請在此處填寫您的銀行匯款資訊，例如：</span><br>
+                <span style="color:#dc3545;">銀行名稱：XXX銀行</span><br>
+                <span style="color:#dc3545;">戶名：XXX有限公司</span><br>
+                <span style="color:#dc3545;">帳號：123-456-789-0 (範例)]</span>
+            </p>
+        </div>
+
+        <div class="form-group">
+            <label for="lastFiveDigits" class="required">匯款帳號末五碼:</label>
+            <input type="text" id="lastFiveDigits" name="匯款帳號末五碼" placeholder="請輸入您匯款帳號的末五碼" pattern="\d{5}" title="請輸入五位數字" maxlength="5" required>
+        </div>
+
+        <div class="form-group">
+            <label for="notes">備註:</label>
+            <textarea id="notes" name="備註" placeholder="如果您有任何特殊需求或問題，請在此說明。"></textarea>
+        </div>
+
+        <button type="submit" id="submitButton">送出報名</button>
+        <div id="response-message"></div>
+    </form>
+</div>
+
+<script>
+    // ***重要：將以下兩個 URL 替換為您在步驟三和步驟四中複製到的 Apps Script 網路應用程式 URL***
+    const TEXT_DATA_SERVICE_URL = 'https://script.google.com/macros/s/AKfycbyjjNY-55ZTUwuxDzqPw407oKhrCEbxf0A4CBQe-T_3A7A-fEVKp8xGV5i1Ajc-xj0u/exec'; 
+    const FILE_UPLOAD_SERVICE_URL = 'https://script.google.com/macros/s/AKfycbxMvrP1m0XxEPEJnu1FkJZIaMpTMirtz20H1HfbIjRqanDuwbJx7eJI5mqVuDN2vjvMxA/exec';
+
+    const registrationForm = document.getElementById('registrationForm');
+    const responseMessage = document.getElementById('response-message');
+    const referrerNameInput = document.getElementById('referrerName');
+    const referralUploadSection = document.getElementById('referralUploadSection');
+    const submitButton = document.getElementById('submitButton');
+
+    // 檔案上傳相關元素 (input, 檔案名稱顯示, 上傳狀態顯示, 儲存 URL 的隱藏欄位)
+    const bankbookFile = document.getElementById('bankbookFile');
+    const idFrontFile = document.getElementById('idFrontFile');
+    const idBackFile = document.getElementById('idBackFile');
+
+    const bankbookFileName = document.getElementById('bankbookFileName');
+    const idFrontFileName = document.getElementById('idFrontFileName');
+    const idBackFileName = document.getElementById('idBackFileName');
+
+    const bankbookUploadStatus = document.getElementById('bankbookUploadStatus');
+    const idFrontUploadStatus = document.getElementById('idFrontUploadStatus');
+    const idBackUploadStatus = document.getElementById('idBackUploadStatus');
+
+    const bankbookFileUrl = document.getElementById('bankbookFileUrl');
+    const idFrontFileUrl = document.getElementById('idFrontFileUrl');
+    const idBackFileUrl = document.getElementById('idBackFileUrl');
+
+    // 監聽介紹人姓名輸入框的變化，控制上傳區塊的顯示與必填狀態
+    referrerNameInput.addEventListener('input', function() {
+        if (this.value.trim() !== '') {
+            referralUploadSection.style.display = 'block';
+            // 設為必填
+            bankbookFile.required = true;
+            idFrontFile.required = true;
+            idBackFile.required = true;
+        } else {
+            referralUploadSection.style.display = 'none';
+            // 取消必填
+            bankbookFile.required = false;
+            idFrontFile.required = false;
+            idBackFile.required = false;
+            // 清空已選檔案和連結，以及上傳狀態
+            bankbookFile.value = ''; bankbookFileName.textContent = '未選擇檔案'; bankbookUploadStatus.textContent = ''; bankbookFileUrl.value = '';
+            idFrontFile.value = ''; idFrontFileName.textContent = '未選擇檔案'; idFrontUploadStatus.textContent = ''; idFrontFileUrl.value = '';
+            idBackFile.value = ''; idBackFileName.textContent = '未選擇檔案'; idBackUploadStatus.textContent = ''; idBackFileUrl.value = '';
+        }
+    });
+
+    // 監聽檔案選擇事件，更新檔案名稱顯示
+    bankbookFile.addEventListener('change', () => { bankbookFileName.textContent = bankbookFile.files.length > 0 ? bankbookFile.files[0].name : '未選擇檔案'; });
+    idFrontFile.addEventListener('change', () => { idFrontFileName.textContent = idFrontFile.files.length > 0 ? idFrontFile.files[0].name : '未選擇檔案'; });
+    idBackFile.addEventListener('change', () => { idBackFileName.textContent = idBackFile.files.length > 0 ? idBackFile.files[0].name : '未選擇檔案'; });
+
+
+    // 異步函數：用於上傳單個檔案到 Google Drive
+    async function uploadFile(file, statusElement, urlHiddenInput) {
+        if (!file) return { success: false, url: '', message: '未選擇檔案' };
+
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', file);
+        uploadFormData.append('fileName', file.name); // 傳送原始檔名
+
+        statusElement.className = 'upload-status uploading';
+        statusElement.textContent = '上傳中...';
+        urlHiddenInput.value = ''; // 上傳前清空舊的URL
+
+        try {
+            const response = await fetch(FILE_UPLOAD_SERVICE_URL, {
+                method: 'POST',
+                body: uploadFormData
+            });
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                statusElement.className = 'upload-status success';
+                statusElement.textContent = '上傳成功!';
+                urlHiddenInput.value = data.fileUrl; // 將檔案 URL 存入隱藏欄位
+                return { success: true, url: data.fileUrl };
+            } else {
+                statusElement.className = 'upload-status error';
+                statusElement.textContent = '上傳失敗: ' + data.message;
+                return { success: false, message: data.message };
+            }
+        } catch (error) {
+            statusElement.className = 'upload-status error';
+            statusElement.textContent = '上傳失敗: 網路錯誤或伺服器問題。';
+            console.error('File upload fetch error:', error);
+            return { success: false, message: error.message };
+        }
+    }
+
+    // 主表單提交事件處理函數
+    registrationForm.addEventListener('submit', async function(e) {
+        e.preventDefault(); // 阻止表單的預設提交行為
+
+        // 顯示載入訊息並禁用提交按鈕
+        responseMessage.style.display = 'block';
+        responseMessage.className = 'loading-message';
+        responseMessage.textContent = '資料驗證中，請稍候...';
+        submitButton.disabled = true; // 禁用提交按鈕，防止重複提交
+
+        // --- 前端驗證 ---
+        // 1. 檢查必填的多選框組是否至少選擇了一個
+        const requiredCheckboxGroups = document.querySelectorAll('input[type="hidden"][data-required-checkbox-group]');
+        for (const hiddenInput of requiredCheckboxGroups) {
+            const groupName = hiddenInput.dataset.required-checkbox-group;
+            const groupCheckboxes = document.querySelectorAll(`input[name="${groupName}"][type="checkbox"]`);
+            const isAnyChecked = Array.from(groupCheckboxes).some(cb => cb.checked);
+            if (!isAnyChecked) {
+                responseMessage.className = 'error-message';
+                responseMessage.textContent = `請至少選擇一個「${groupName}」選項。`;
+                submitButton.disabled = false;
+                return; // 阻止表單提交
+            }
+        }
+
+        // 2. 檢查「條款同意聲明」是否被勾選
+        const termsAgreementCheckbox = document.getElementById('termsAgreement');
+        if (!termsAgreementCheckbox.checked) {
+            responseMessage.className = 'error-message';
+            responseMessage.textContent = '請勾選「我已詳細閱讀並完全同意以上課程條款、免責聲明及保密協議條款」。';
+            submitButton.disabled = false;
+            return; // 阻止表單提交
+        }
+
+        // 3. 如果有填寫介紹人，則檢查並上傳檔案
+        if (referrerNameInput.value.trim() !== '') {
+            // 檢查是否所有檔案都已選擇
+            if (!bankbookFile.files.length || !idFrontFile.files.length || !idBackFile.files.length) {
+                responseMessage.className = 'error-message';
+                responseMessage.textContent = '您有填寫介紹人，請上傳銀行存摺影本及身分證正反面影本。';
+                submitButton.disabled = false;
+                return; // 阻止表單提交
+            }
+
+            responseMessage.textContent = '檔案上傳中，請稍候... (這可能需要一些時間)';
+            // 逐個上傳檔案，使用 Promise.all 等待所有上傳完成
+            const uploadResults = await Promise.all([
+                uploadFile(bankbookFile.files[0], bankbookUploadStatus, bankbookFileUrl),
+                uploadFile(idFrontFile.files[0], idFrontUploadStatus, idFrontFileUrl),
+                uploadFile(idBackFile.files[0], idBackUploadStatus, idBackFileUrl)
+            ]);
+
+            // 檢查是否有任何檔案上傳失敗
+            const allFilesUploaded = uploadResults.every(result => result.success);
+            if (!allFilesUploaded) {
+                responseMessage.className = 'error-message';
+                responseMessage.textContent = '檔案上傳失敗，請檢查檔案格式或大小。';
+                submitButton.disabled = false;
+                return; // 阻止表單提交
+            }
+        }
+        // --- 結束前端驗證和檔案上傳 ---
+
+
+        responseMessage.textContent = '資料送出中，請稍候...';
+
+        const formData = new FormData(registrationForm);
+
+        // 處理多選框 (checkboxes) 的值，將多個選中的值合併為一個逗號分隔的字串
+        const allCheckboxes = registrationForm.querySelectorAll('input[type="checkbox"]');
+        const checkboxGroupValues = {}; 
+        allCheckboxes.forEach(checkbox => {
+            // 排除「條款同意聲明」的 checkbox，因為它只會是單一勾選狀態
+            if (checkbox.checked && checkbox.id !== 'termsAgreement') { 
+                if (!checkboxGroupValues[checkbox.name]) {
+                    checkboxGroupValues[checkbox.name] = [];
+                }
+                checkboxGroupValues[checkbox.name].push(checkbox.value);
+            }
+        });
+
+        // 將處理過的多選值更新到 formData
+        for (const name in checkboxGroupValues) {
+            formData.set(name, checkboxGroupValues[name].join(', '));
+        }
+        // 「條款同意聲明」的 value 已經在 HTML 中設置，會被 FormData 正常處理
+
+        // 將檔案的 URL 從隱藏欄位加入 FormData，以便傳送給文字數據服務
+        formData.set('銀行存摺影本連結', bankbookFileUrl.value);
+        formData.set('身分證正面影本連結', idFrontFileUrl.value);
+        formData.set('身分證反面影本連結', idBackFileUrl.value);
+
+
+        // 使用 Fetch API 將表單數據 POST 到 Apps Script (文字數據服務)
+        try {
+            const response = await fetch(TEXT_DATA_SERVICE_URL, {
+                method: 'POST',
+                body: formData // 將 FormData 直接作為 body 傳送
+            });
+            const data = await response.json(); // 解析回傳的 JSON 數據
+
+            if (data.status === 'success') {
+                responseMessage.className = 'success-message';
+                responseMessage.textContent = '報名成功！感謝您的填寫。';
+                registrationForm.reset(); // 清空表單內容
+                referralUploadSection.style.display = 'none'; // 隱藏上傳區塊
+                // 清空檔案選擇顯示和狀態
+                bankbookFileName.textContent = '未選擇檔案'; bankbookUploadStatus.textContent = ''; bankbookFileUrl.value = '';
+                idFrontFileName.textContent = '未選擇檔案'; idFrontUploadStatus.textContent = ''; idFrontFileUrl.value = '';
+                idBackFileName.textContent = '未選擇檔案'; idBackUploadStatus.textContent = ''; idBackFileUrl.value = '';
+            } else {
+                responseMessage.className = 'error-message';
+                // 顯示 Apps Script 返回的錯誤訊息，如果有的話
+                responseMessage.textContent = '報名失敗，請稍後再試。' + (data.message ? ' 錯誤: ' + data.message : '');
+            }
+        } catch (error) {
+            // 捕獲網路或其他錯誤
+            responseMessage.className = 'error-message';
+            responseMessage.textContent = '發生網路錯誤，請檢查您的連線或稍後再試。';
+            console.error('Text data fetch error:', error);
+        } finally {
+            submitButton.disabled = false; // 無論成功或失敗，都重新啟用提交按鈕
+        }
+    });
+</script>
+
+</body>
+</html>
